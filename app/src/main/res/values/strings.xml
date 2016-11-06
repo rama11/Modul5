@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BlueSide</string>
+    // Start For ButterKnife
+    <string name="bTile">Use ButterKnife</string>
+    <string name="bHint">Your Name</string>
+    <string name="bButton">Pres It</string>
+
+    // Start For DataBinding
+    <string name="dTitle">Use DataBinding</string>
+    <string name="dHint">Your Name</string>
+</resources>

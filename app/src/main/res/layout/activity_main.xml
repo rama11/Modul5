@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="yourName"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="top.rama_agastya.butterknife2.MainActivity">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bTile" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bHint" />
+
+        <Button
+            android:id="@+id/buttonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bButton" />
+
+        <TextView
+            android:id="@+id/textviewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/dTitle" />
+
+        <EditText
+            android:id="@+id/editName2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dHint"
+            android:text="@={yourName}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@{ yourName == null || yourName.equals("") ? "" : "Your Name is " + yourName}' />
+
+        <Button
+            android:id="@+id/btnRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="To RecyleView" />
+
+        <Button
+            android:id="@+id/btnJson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="To Json Parsing" />
+
+
+    </LinearLayout>
+</layout>

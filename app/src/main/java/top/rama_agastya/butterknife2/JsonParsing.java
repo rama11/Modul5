@@ -24,12 +24,11 @@ import butterknife.ButterKnife;
 public class JsonParsing extends AppCompatActivity {
 
     // URL to get contacts JSON
-    private static String url = "https://data.kpu.go.id/open/v1/api.php?cmd=wilayah_browse&wilayah_id=42385";
+    private static String url = "http://192.168.137.1/prov.json";
     ArrayList<HashMap<String, String>> contactList;
     @BindView(R.id.wilayah)
     TextView tvWilayah;
     private String TAG = JsonParsing.class.getSimpleName();
-    private String wilayah;
     private ProgressDialog pDialog;
     private ListView lv;
 
@@ -76,23 +75,22 @@ public class JsonParsing extends AppCompatActivity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-                    JSONArray contacts = jsonObj.getJSONArray("data");
-
-                    wilayah = jsonObj.getString("wilayah");
+                    JSONArray prov = jsonObj.getJSONArray("data");
 
                     // looping through All Contacts
-                    for (int i = 0; i < contacts.length(); i++) {
-                        JSONObject c = contacts.getJSONObject(i);
+                    for (int i = 0; i < prov.length(); i++) {
+                        JSONObject p = prov.getJSONObject(i);
 
-                        String id = c.getString("wilayah_id");
-                        String name = c.getString("nama");
-                        String email = c.getString("singkatan");
+                        String id = p.getString("wilayah_id");
+                        String nama = p.getString("nama");
+                        String singkatan = p.getString("singkatan");
+                        String tingkat = p.getString("tingkat");
                         //String address = c.getString("address");
                         //String gender = c.getString("gender");
 
                         // Phone node is JSON Object
                         //JSONObject phone = c.getJSONObject("phone");
-                        String mobile = c.getString("wilayah_id");
+                        // String mobile = p.getString("wilayah_id");
                         //String home = phone.getString("home");
                         //String office = phone.getString("office");
 
@@ -100,11 +98,13 @@ public class JsonParsing extends AppCompatActivity {
                         HashMap<String, String> contact = new HashMap<>();
 
                         // adding each child node to HashMap key => value
-                        contact.put("id", id);
-                        contact.put("name", name);
-                        contact.put("email", "Singkatan : " + email);
-                        contact.put("mobile", "Wilayah ID : " + mobile);
-
+                        contact.put("id", "Wil. ID : " + id);
+                        contact.put("nama", nama);
+                        contact.put("singkatan", "     Singkatan   : " + singkatan);
+                        if (tingkat.equals("1"))
+                            contact.put("tingkat", "     Wil. Tingkat : Provinsi");
+                        else
+                            contact.put("tingkat", "     Wil. Tingkat : NULL");
                         // adding contact to contact list
                         contactList.add(contact);
                     }
@@ -113,10 +113,7 @@ public class JsonParsing extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG)
-                                    .show();
+                            Toast.makeText(getApplicationContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -126,14 +123,10 @@ public class JsonParsing extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG)
-                                .show();
+                        Toast.makeText(getApplicationContext(), "Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
                     }
                 });
             }
-
             return null;
         }
 
@@ -150,9 +143,9 @@ public class JsonParsing extends AppCompatActivity {
                     JsonParsing.this,
                     contactList,
                     R.layout.list_layout,
-                    new String[]{"name", "email", "mobile"},
-                    new int[]{R.id.name, R.id.email, R.id.mobile});
-            tvWilayah.setText(wilayah);
+                    new String[]{"nama", "id", "singkatan", "tingkat"},
+                    new int[]{R.id.nama, R.id.id, R.id.singkatan, R.id.tingkat});
+            tvWilayah.setText("Seluruh Provinsi Indonesia");
             lv.setAdapter(adapter);
 
         }

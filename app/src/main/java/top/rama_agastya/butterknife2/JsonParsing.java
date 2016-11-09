@@ -1,10 +1,13 @@
 package top.rama_agastya.butterknife2;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -24,7 +27,7 @@ import butterknife.ButterKnife;
 public class JsonParsing extends AppCompatActivity {
 
     // URL to get contacts JSON
-    private static String url = "http://192.168.137.1/prov.json";
+    private static String url = "http://172.26.3.26/prov.json";
     ArrayList<HashMap<String, String>> contactList;
     @BindView(R.id.wilayah)
     TextView tvWilayah;
@@ -41,6 +44,7 @@ public class JsonParsing extends AppCompatActivity {
         contactList = new ArrayList<>();
 
         lv = (ListView) findViewById(R.id.list);
+
 
         new GetContacts().execute();
     }
@@ -113,7 +117,7 @@ public class JsonParsing extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Json parsing error : " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -147,6 +151,20 @@ public class JsonParsing extends AppCompatActivity {
                     new int[]{R.id.nama, R.id.id, R.id.singkatan, R.id.tingkat});
             tvWilayah.setText("Seluruh Provinsi Indonesia");
             lv.setAdapter(adapter);
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    String wil = ((TextView) view.findViewById(R.id.nama)).getText().toString();
+
+                    // Launching new Activity on selecting single List Item
+                    Intent i = new Intent(getApplicationContext(), SingleItem.class);
+
+                    // sending data to new activity
+                    i.putExtra("wil", wil);
+                    startActivity(i);
+                }
+            });
 
         }
 
